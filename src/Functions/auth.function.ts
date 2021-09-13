@@ -5,7 +5,7 @@ import logging from "../Config/logging";
 
 export const generateAccessToken = (user: IUser) => {
 	logging.info(user);
-	return jwt.sign(user.toJSON(), config.token.accessTokenSecret, { expiresIn: config.token.expireTime });
+	return jwt.sign(user.toJSON(), config.token.accessTokenSecret, { expiresIn: '10s' });
 };
 
 export const generateRefreshToken = (user: IUser) => {
