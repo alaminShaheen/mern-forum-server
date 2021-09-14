@@ -8,6 +8,7 @@ This Project is a Node.js application which uses the following features
 1. Entire project done using Typescript
 2. Unprotected and protected API routes used
 3. JWT token authentication with refresh tokens is used
+4. Proper logs are printed for every API requests and database connection
 
 ## Live Application URL
 
