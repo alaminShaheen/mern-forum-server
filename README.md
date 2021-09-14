@@ -17,7 +17,7 @@ The Application is deployed in Heroku at https://mern-forum-app-server.herokuapp
 ## Cloning and Running the Application in local
 
 **IMPORTANT NOTE - This application initializes a server for the [MERN forum client](https://github.com/BlueGhost12/mern-forum-client) app. Locally run this app first before running the client application.**
-All configs required for this app can be found in this project under [this](https://github.com/BlueGhost12/mern-forum-server/blob/main/src/Config/config.ts) directory. The environment variables are located in the [.env](https://github.com/BlueGhost12/mern-forum-server/blob/main/.env) file
+All configs required for this app are preconfigured and can be found in this project under [this](https://github.com/BlueGhost12/mern-forum-server/blob/main/src/Config/config.ts) directory. The environment variables are also preconfigured and is located in the [.env](https://github.com/BlueGhost12/mern-forum-server/blob/main/.env) file
 
 Clone the project into local
 
