@@ -4,47 +4,41 @@ import { IQuestion } from "../Interfaces/question.interface";
 import Question from "../Models/question.model";
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info("Attempting to create new question");
-	const { Title, Description, CreatedBy, CreatedAt }: IQuestion = req.body;
+    logging.info("Attempting to create new question");
+    const { Title, Description, CreatedBy, CreatedAt }: IQuestion = req.body;
 
-	if (
-		!Title ||
-		!CreatedBy ||
-		!Description ||
-		typeof Description !== "string" ||
-		typeof Title !== "string" ||
-		typeof CreatedBy !== "string"
-	) {
-		return res.status(400).json({ message: "Invalid request" });
-	}
+    if (!Title || !CreatedBy || !Description || typeof Description !== "string" || typeof Title !== "string" || typeof CreatedBy !== "string") {
+        return res.status(400).json({ message: "Invalid request" });
+    }
 
-	try {
-		const question = await Question.create({
-			Title,
-			Description,
-			CreatedBy,
-			Answers: [],
-		});
-		logging.info(`New Question ${question._id} created`);
-		return res.status(201).json(question);
-	} catch (error) {
-		logging.error(error);
-		return res.status(500).json({ error });
-	}
+    try {
+        const question = await Question.create({ Title, Description, CreatedBy, Answers: [] });
+        logging.info(`New Question ${question._id} created`);
+        return res.status(201).json(question);
+    } catch (error) {
+        logging.error(error);
+        return res.status(500).json({ error });
+    }
 };
 
-const getQuestions = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
-	logging.info(`Incoming get request for all questions`);
+const getQuestions = async (req: Request, res: Response, next: NextFunction) => {
+    logging.info(`Incoming get request for all questions`);
+    try {
+        const questions = await Question.find().exec();
+        return res.status(200).json({ questions, count: questions.length });
+    } catch (error) {
+        logging.error(error);
+        return res.status(500).json({ error });
+    }
+};
+
+const update = async (req: Request, res: Response) => {
+    const { Id }: { Id: string } = req.body;
+    logging.info(`Incoming put request for question with id ${Id}`);
 	try {
-		const questions = await Question.find().exec();
-		return res.status(200).json({ questions, count: questions.length });
-	} catch (error) {
-		logging.error(error);
-		return res.status(500).json({ error });
+		const newQuestion = await Question.findByIdAndUpdate(Id, {})
+	} catch () {
+		
 	}
 };
 
