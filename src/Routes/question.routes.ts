@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.use(AuthMiddleware.authenticateToken);
 
-router.get("/", questionController.getQuestions);
-router.post("/create", questionController.create);
+router
+.get("/", questionController.getQuestions)
+.get("/:questionId", questionController.getQuestion)
+.post("/create", questionController.create);
 
 export { router as questionRouter };
