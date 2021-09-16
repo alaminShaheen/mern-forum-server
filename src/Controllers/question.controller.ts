@@ -33,21 +33,22 @@ const getQuestions = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
-	const questionId = req.params.questionId;
-	logging.info(`Incoming get request for questions ${questionId}`);
-	try {
-		const question = await Question.findById(questionId);
-		return res.status(200).json({ question });
-	} catch (error) {
-		logging.error(error);
-		return res.status(500).json({ error });
-	}
+    const questionId = req.params.questionId;
+    logging.info(`Incoming get request for questions ${questionId}`);
+    try {
+        const question = await Question.findById(questionId);
+        if (!question) return res.sendStatus(404).json({ message: "Question not found" });
+        return res.status(200).json({ question });
+    } catch (error) {
+        logging.error(error);
+        return res.status(500).json({ error });
+    }
 };
 
 const questionController = {
-	create,
-	getQuestions,
-	getQuestion
+    create,
+    getQuestions,
+    getQuestion,
 };
 
 export default questionController;
