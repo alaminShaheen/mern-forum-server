@@ -32,16 +32,6 @@ const getQuestions = async (req: Request, res: Response, next: NextFunction) => 
     }
 };
 
-const update = async (req: Request, res: Response) => {
-    const { Id }: { Id: string } = req.body;
-    logging.info(`Incoming put request for question with id ${Id}`);
-	try {
-		const newQuestion = await Question.findByIdAndUpdate(Id, {})
-	} catch () {
-		
-	}
-};
-
 const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	const questionId = req.params.questionId;
 	logging.info(`Incoming get request for questions ${questionId}`);
