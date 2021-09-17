@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import logging from "../Config/logging";
 import { IQuestion } from "../Interfaces/question.interface";
+import Answer from "../Models/answer.model";
 import Question from "../Models/question.model";
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -45,10 +46,45 @@ const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const updateQuestion = async (req: Request, res: Response, next: NextFunction) => {
+    const questionId = req.params.questionId;
+    const { Title, Description }: IQuestion = req.body;
+    logging.info(`Incoming put request for question ${questionId}`);
+    if (!Title || !Description) return res.status(400).json({ message: "Invalid request" });
+    try {
+        const question = await Question.findByIdAndUpdate(questionId, { Title, Description }, { new: true });
+        if (!question) return res.status(404).json({ message: "Question does not exist" });
+        return res.status(200).json(question);
+    } catch (error) {
+        logging.error(error);
+        return res.status(500).json({ error });
+    }
+};
+
+const deleteQuestion = async (req: Request, res: Response, next: NextFunction) => {
+    const questionId = req.params.questionId;
+    logging.info(`Incoming delete request for question ${questionId}`);
+    try {
+        const question = await Question.findByIdAndDelete(questionId, { new: true });
+        if (!question) return res.status(404).json({ message: "Question does not exist" });
+        if (question.Answers) {
+            for (const answer of question.Answers) {
+                await Answer.findByIdAndDelete(answer._id);
+            }
+        }
+        return res.status(200).json(question);
+    } catch (error) {
+        logging.error(error);
+        return res.status(500).json({ error });
+    }
+};
+
 const questionController = {
     create,
     getQuestions,
     getQuestion,
+    deleteQuestion,
+    updateQuestion,
 };
 
 export default questionController;
