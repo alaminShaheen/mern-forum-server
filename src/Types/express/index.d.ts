@@ -4,7 +4,7 @@ import { IUser } from "../../Interfaces/user.interface";
 declare global {
 	namespace Express {
 		interface Request {
-			user?: Record<IUser, any>;
+			user?: IUser;
 		}
 	}
 }
